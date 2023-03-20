@@ -1,0 +1,15 @@
+ChampSim/Berti/bin/
+ChampSim/Berti/obj/
+ChampSim/Other_PF/bin/
+ChampSim/Other_PF/obj/
+Python/__pycache__/
+detail_results.csv
+*.pdf
+output/
+single.csv
+spec.csv
+tmp_par.out
+traces.tar
+traces
+ChampSim/Berti/inc/champsim.h.bak
+ChampSim/Other_PF/inc/champsim.h.bak
