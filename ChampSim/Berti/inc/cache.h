@@ -372,6 +372,7 @@ class CACHE : public MEMORY {
 
          //prefetcher_initialize(),
          l1d_prefetcher_initialize(),
+         l1d_prefetcher_initialize(char *tracename),
          l2c_prefetcher_initialize(),
          llc_prefetcher_initialize(),
          itlb_prefetcher_initialize(),

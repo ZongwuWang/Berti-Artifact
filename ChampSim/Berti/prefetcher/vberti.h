@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <cstdio>
 
 // vBerti defines
 # define LATENCY_TABLE_SIZE           (L1D_MSHR_SIZE + 16)
@@ -94,6 +95,9 @@ std::queue<uint64_t> vbertit_queue[NUM_CPUS];
 
 // Auxiliar pointers
 history_table_t *history_pointers[NUM_CPUS][HISTORY_TABLE_SET];
+
+// Log File
+FILE* file = NULL;
 
 void notify_prefetch(uint64_t addr, uint64_t cycle);
 

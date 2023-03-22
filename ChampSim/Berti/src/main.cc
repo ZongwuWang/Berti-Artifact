@@ -1316,7 +1316,7 @@ int main(int argc, char** argv)
         ooo_cpu[i].L1D.MAX_READ = (2 > MAX_READ_PER_CYCLE) ? MAX_READ_PER_CYCLE : 2;
         ooo_cpu[i].L1D.fill_level = FILL_L1;
         ooo_cpu[i].L1D.lower_level = &ooo_cpu[i].L2C; 
-        ooo_cpu[i].L1D.l1d_prefetcher_initialize();
+        ooo_cpu[i].L1D.l1d_prefetcher_initialize(ooo_cpu[0].trace_string);
 
 	ooo_cpu[i].L1D.initialize_replacement = &CACHE::l1d_initialize_replacement;
 	ooo_cpu[i].L1D.update_replacement_state = &CACHE::l1d_update_replacement_state;

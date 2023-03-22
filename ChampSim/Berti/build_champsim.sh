@@ -199,9 +199,9 @@ mkdir -p bin
 rm -f bin/champsim
 make clean
 if [ "$#" -eq 19 ]; then
-    make CC=${19} CCX=${19}
+    bear make CC=${19} CCX=${19}
 else
-    make
+    bear make
 fi
 
 # Sanity check

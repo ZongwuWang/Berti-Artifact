@@ -13,3 +13,6 @@ traces.tar
 traces
 ChampSim/Berti/inc/champsim.h.bak
 ChampSim/Other_PF/inc/champsim.h.bak
+mem_acce*
+ChampSim/Berti/compile_commands.json
+ChampSim/Berti/.cache/
