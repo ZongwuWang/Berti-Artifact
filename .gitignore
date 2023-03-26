@@ -16,3 +16,7 @@ ChampSim/Other_PF/inc/champsim.h.bak
 mem_acce*
 ChampSim/Berti/compile_commands.json
 ChampSim/Berti/.cache/
+ChampSim/Other_PF/.cache/
+ChampSim/Other_PF/compile_commands.json
+Python/rename.py
+black_list*

@@ -114,6 +114,8 @@ def add_to_dic(dic, value, i, key):
                 l1dpref = "{}_{}".format(l1dpref, perfect)
             if l1dpref == "vberti_ross_hash":
                 l1dpref = "{}_{}".format(l1dpref, perfect)
+            if l1dpref == "blacklist":
+                l1dpref = "{}_{}".format(l1dpref, perfect)
     
     # Crear estructura
     if l1ipref not in dic:

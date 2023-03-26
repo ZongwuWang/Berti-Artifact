@@ -30,6 +30,7 @@ CONTAINER="docker"
 DIR=$(pwd)
 BERTI="./ChampSim/Berti"
 PF="./ChampSim/Other_PF"
+BERTI=$PF
 TRACES_SPEC="traces/spec2k17"
 TRACES_GAP="traces/gap"
 TRACES_CS="traces/cs"
@@ -270,7 +271,7 @@ if [[ "$BUILD" == "Y" ]]; then
 
     echo -n "Building Berti..."
     cd $BERTI
-    run_compile "./build_champsim.sh hashed_perceptron no vberti_filter no no no no no\
+    run_compile "./build_champsim.sh hashed_perceptron no no no no no no no\
             lru lru lru srrip drrip lru lru lru 1 no"
     cd $DIR
     
