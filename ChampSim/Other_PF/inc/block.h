@@ -322,6 +322,10 @@ class CORE_BUFFER {
   public:
     const string NAME;
     const uint32_t SIZE;
+    uint64_t last_block_ip = 0;
+    enum block_level {empty, quarter, half, quarter3, full};
+    block_level last_block_level = empty;
+    
     uint32_t cpu, 
              head, 
              tail,
