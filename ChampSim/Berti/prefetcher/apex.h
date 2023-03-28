@@ -1,0 +1,1 @@
+#define CORRELATION_DEGREE	16
