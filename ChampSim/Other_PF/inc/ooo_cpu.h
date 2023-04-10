@@ -3,6 +3,7 @@
 
 #include "cache.h"
 #include "page_table_walker.h"
+#include <cstdint>
 
 #ifdef CRC2_COMPILE
 #define STAT_PRINTING_PERIOD 1000000
@@ -42,6 +43,11 @@ class O3_CPU {
 
     // trace
     FILE *trace_file;
+    struct rob_stall_cycle {
+        uint64_t ip;
+        uint64_t stall_cycle;
+    } stall_info;
+    FILE *ROB_stall_file;
     char trace_string[1024];
     char gunzip_command[1024];
     int context_switch, operating_index;

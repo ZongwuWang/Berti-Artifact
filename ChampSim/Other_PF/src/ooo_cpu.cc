@@ -2,10 +2,14 @@
 #include "ooo_cpu.h"
 #include "set.h"
 #include <algorithm>
+#include <cstdio>
+#include <cstring>
 #include <iterator>
 #include <map>
 #include <set>
 #include <vector>
+
+#define TRACE_ROB_STALL
 
 // out-of-order core
 O3_CPU ooo_cpu[NUM_CPUS];
@@ -45,6 +49,25 @@ void O3_CPU::initialize_core() {
 
 #ifdef PRACTICAL_PERFECT_L2C
   cout << "Running PRACTICAL_PERFECT_L2C." << endl;
+#endif
+
+#ifdef TRACE_ROB_STALL
+char logname[1024];
+char bench_name[1024];
+char *pch[100];
+int count_str = 0;
+pch[0] = strtok(this->trace_string, "/");
+while (pch[count_str] != NULL) {
+  count_str++;
+  pch[count_str] = strtok(NULL, "/");
+}
+memcpy(bench_name, pch[count_str - 1], strlen(pch[count_str - 1]) - 3);
+sprintf(logname, "ROB_stall_result/%s_core%d.dat", bench_name, this->cpu);
+ROB_stall_file = fopen(logname, "wb");
+if (NULL == ROB_stall_file) {
+  printf("Error: Failed to open file [%s], exit!!!", logname);
+  exit(1);
+}
 #endif
 }
 
@@ -2876,7 +2899,7 @@ void O3_CPU::retire_rob() {
       // cout << "[ROB] " << __func__ << " instr_id: " <<
       // ROB.entry[ROB.head].instr_id << " head: " << ROB.head << " is not
       // executed yet" << endl; });
-      #ifdef ROB_STALL_CYCLE
+      #ifdef TRACE_ROB_STALL
 
         if (ROB.entry[ROB.head].stall_begin_cycle == 0) {
             ROB.entry[ROB.head].stall_begin_cycle = current_core_cycle[cpu];
@@ -2973,9 +2996,12 @@ void O3_CPU::retire_rob() {
     // ROB.entry[ROB.head].instr_id << " is retired" << endl; });
 
     ooo_model_instr empty_entry;
-    #ifdef ROB_STALL_CYCLE
+    #ifdef TRACE_ROB_STALL
     if (ROB.entry[ROB.head].stall_begin_cycle != 0) {
-        printf("Stall cycle for ip %lu = %lu\n", ROB.entry[ROB.head].ip, current_core_cycle[cpu] - ROB.entry[ROB.head].stall_begin_cycle);
+        // printf("Stall cycle for ip %lu = %lu\n", ROB.entry[ROB.head].ip, current_core_cycle[cpu] - ROB.entry[ROB.head].stall_begin_cycle);
+        stall_info = {ROB.entry[ROB.head].ip, current_core_cycle[cpu] - ROB.entry[ROB.head].stall_begin_cycle};
+        // fprintf(ROB_stall_file, "Stall cycle for ip %lu = %lu\n", ROB.entry[ROB.head].ip, current_core_cycle[cpu] - ROB.entry[ROB.head].stall_begin_cycle);
+        fwrite(&stall_info, sizeof(rob_stall_cycle), 1, ROB_stall_file);
     }
     #endif
     ROB.entry[ROB.head] = empty_entry;
@@ -2989,4 +3015,8 @@ void O3_CPU::retire_rob() {
   }
 }
 
-void O3_CPU::core_final_stats() {}
+void O3_CPU::core_final_stats() {
+  #ifdef TRACE_ROB_STALL
+  fclose(ROB_stall_file);
+  #endif
+}

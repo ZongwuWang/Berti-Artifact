@@ -22,3 +22,4 @@ Python/rename.py
 black_list*
 ChampSim/Other_PF/dpc3_traces/
 ChampSim/Other_PF/results_10M/
+ROB_stall_result/

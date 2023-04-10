@@ -3,13 +3,14 @@
 
 #include "cache.h"
 #include "page_table_walker.h"
+#include <cstdint>
 
 #ifdef CRC2_COMPILE
 #define STAT_PRINTING_PERIOD 1000000
 #else
 #define STAT_PRINTING_PERIOD 10000000
 #endif
-#define DEADLOCK_CYCLE 100000000
+#define DEADLOCK_CYCLE 1000000
 
 using namespace std;
 
@@ -42,6 +43,11 @@ class O3_CPU {
 
     // trace
     FILE *trace_file;
+    struct rob_stall_cycle {
+        uint64_t ip;
+        uint64_t stall_cycle;
+    } stall_info;
+    FILE *ROB_stall_file;
     char trace_string[1024];
     char gunzip_command[1024];
     int context_switch, operating_index;
@@ -241,6 +247,7 @@ class O3_CPU {
      void l1i_prefetcher_branch_operate(uint64_t ip, uint8_t branch_type, uint64_t branch_target);
      void l1i_prefetcher_cache_operate(uint64_t v_addr, uint8_t cache_hit, uint8_t prefetch_hit);
      void l1i_prefetcher_cycle_operate();
+     void l1d_prefetcher_allocate_operate(uint64_t ip, uint64_t v_addr, uint64_t delay_cycle, uint32_t cpu);
      void l1i_prefetcher_cache_fill(uint64_t v_addr, uint32_t set, uint32_t way, uint8_t prefetch, uint64_t evicted_v_addr);
      void l1i_prefetcher_final_stats();
      int prefetch_code_line(uint64_t pf_v_addr);
